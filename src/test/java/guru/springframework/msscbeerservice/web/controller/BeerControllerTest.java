@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import guru.springframework.msscbeerservice.bootstrap.BeerLoader;
 import guru.springframework.msscbeerservice.web.model.BeerDto;
 import guru.springframework.msscbeerservice.web.model.BeerStyleEnum;
-import guru.springframework.msscbeerservice.web.services.BeerService;
+import guru.springframework.msscbeerservice.services.BeerService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
