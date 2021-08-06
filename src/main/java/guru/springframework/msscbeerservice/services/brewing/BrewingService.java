@@ -2,7 +2,7 @@ package guru.springframework.msscbeerservice.services.brewing;
 
 import guru.springframework.msscbeerservice.config.JmsConfig;
 import guru.springframework.msscbeerservice.domain.Beer;
-import guru.springframework.msscbeerservice.events.BrewBeerEvent;
+import guru.sfg.common.events.BrewBeerEvent;
 import guru.springframework.msscbeerservice.repositories.BeerRepository;
 import guru.springframework.msscbeerservice.services.inventory.BeerInventoryService;
 import guru.springframework.msscbeerservice.web.mappers.BeerMapper;
@@ -39,7 +39,7 @@ public class BrewingService {
             log.debug("Min onhand is: " + beer.getMinOnHand());
             log.debug("Inventory is: " + invQOH);
 
-            if (beer.getMinOnHand() >= invQOH) {
+            if (beer.getMinOnHand() <= invQOH) {
                 jmsTemplate.convertAndSend(JmsConfig.BREWING_REQUEST_QUEUE, new BrewBeerEvent(beerMapper.beerToBeerDto(beer)));
             }
         });
