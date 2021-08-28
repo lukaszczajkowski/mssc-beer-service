@@ -21,6 +21,7 @@ services:
       - eureka
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka/
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
   inventory-service:
     image: sfgbeerworks/sfg-brewery-inventory-service
     ports:
@@ -35,6 +36,8 @@ services:
       SPRING_ZIPKIN_BASEURL: http://zipkin
       SPRING_ARTEMIS_HOST: jms
       SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/beerinventoryservice?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
+    restart: on-failure
   inventory-failover:
     image: sfgbeerworks/sfg-brewery-inventory-failover
     ports:
@@ -46,8 +49,9 @@ services:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka/
       SPRING_PROFILES_ACTIVE: local-discovery, localmysql
       SPRING_ZIPKIN_BASEURL: http://zipkin
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
   beer-service:
-    image: sfgbeerworks/brewery-beer-service
+    image: sfgbeerworks/sfg-brewery-beer-service
     ports:
       - 8080:8080
     depends_on:
@@ -61,8 +65,10 @@ services:
       SPRING_ZIPKIN_BASEURL: http://zipkin
       SPRING_ARTEMIS_HOST: jms
       SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/beerservice?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
+    restart: on-failure
   order-service:
-    image: sfgbeerworks/brewery-order-service
+    image: sfgbeerworks/sfg-brewery-order-service
     ports:
       - 8081:8081
     depends_on:
@@ -77,6 +83,8 @@ services:
       SPRING_ARTEMIS_HOST: jms
       SPRING_DATASOURCE_URL: jdbc:mysql://host.docker.internal:3306/beerorderservice?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
       SFG_BREWERY_BEER_SERVICE-HOST: http://beer-service:8080
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
+    restart: on-failure
   gateway:
     image: sfgbeerworks/sfg-brewery-gateway
     ports:
@@ -91,3 +99,5 @@ services:
     environment:
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://netflix:eureka@eureka:8761/eureka/
       SPRING_PROFILES_ACTIVE: local-discovery
+      EUREKA_INSTANCE_PREFER_IP_ADDRESS: 'true'
+    restart: on-failure
